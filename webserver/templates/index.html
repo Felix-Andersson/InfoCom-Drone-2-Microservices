@@ -4,6 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <title>Drone in Lund</title>
+  <link rel="stylesheet" href="/static/style.css">
   <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.min.js"></script>
@@ -14,9 +15,14 @@
 </head>
 
 <body>
-  <p>Current Position: </p>
-  <div id="txt"></div>
-  <object id="map" data="static/images/lund-map.svg" type="image/svg+xml" ></object>
+  <div class="map_holder">
+      <div class="pos-text">
+          <p>Current Position: </p>
+          <div id="txt"></div>
+      </div>
+      <object id="map" data="static/images/lund-map-cropped.svg" type="image/svg+xml" ></object>
+      
+  </div>
   <script type="text/javascript" src="static/js/load.js"></script>
   <script>
       var socket = io.connect('http://0.0.0.0:5000')
@@ -25,7 +31,7 @@
           socket.emit('get_location');
       })
       socket.on('get_location', function(x_data, y_data) {
-          document.getElementById('txt').innerHTML = x_data + ', ' + y_data;
+          document.getElementById('txt').innerHTML = x_data.toFixed(2) + ', ' + y_data.toFixed(2);
           circle_x = x_data;
           circle_y = y_data;
           var doc = document.getElementById('map').getSVGDocument();
